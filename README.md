@@ -1,8 +1,8 @@
-HCI final-Term Project
+#HCI final-Term Project
 ===
 
-## 제목 / 목표
+### 제목 / 목표
 
-## 특징 (동작순서 / 기능)
+### 특징 (동작순서 / 기능)
 
-## 개발순서
+### 개발순서
