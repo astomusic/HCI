@@ -17,6 +17,7 @@ Boid::Boid() {
     r = 3.0;
     maxspeed = 4;
     maxforce = 0.1;
+    initPosition = ofPoint(0, 0);
 }
 
 Boid::Boid(int x, int y) {
@@ -26,6 +27,7 @@ Boid::Boid(int x, int y) {
     r = 3.0;
     maxspeed = 4;
     maxforce = 0.1;
+    initPosition = ofPoint(x, y);
 }
 
 // Method to update location
@@ -112,9 +114,9 @@ void Boid::flock(vector<Boid> &boids) {
 	ofVec2f coh = cohesion(boids);
 	
 	// Arbitrarily weight these forces
-	sep *= 1.5;
-	ali *= 1.0;
-	coh *= 1.0;
+	sep *= 0.0;
+	ali *= 0.0;
+	coh *= 0.0;
 	
 	acc += sep + ali + coh;
 }

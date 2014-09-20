@@ -37,6 +37,8 @@ public:
 	float r;
 	float maxforce;
 	float maxspeed;
+    
+    ofPoint initPosition;
 };
 
 #endif

@@ -32,15 +32,25 @@ void testApp::setup() {
       
  //   verdana.loadFont(ofToDataPath("verdana.ttf"), 24);
     
-    flock.addBoid(100, 100);
+    for (int i = 0; i < 10 ; i++){
+        flock.addBoid(i*50, i*50);
+        printf("\n\n\n%f\n\n\n",flock.boids[i].initPosition.x);
+    }
+    
+
 }
 
 //--------------------------------------------------------------
 void testApp::update(){
     openNIDevice.update();
-
+    
     for (int i = 0; i < flock.boids.size(); ++i) {
-        flock.boids[i].seek(seeker);
+        if (flock.boids[i].loc.x - 50 <= seeker.x && seeker.x <= flock.boids[i].loc.x + 50
+            && flock.boids[i].loc.y - 50 <= seeker.y && flock.boids[i].loc.y + 50) {
+            flock.boids[i].avoid(seeker);
+        } else {
+            flock.boids[i].arrive(flock.boids[i].initPosition);
+        }
     }
     flock.update();
 }
@@ -63,7 +73,7 @@ void testApp::draw(){
         ofxOpenNIUser & user = openNIDevice.getTrackedUser(0);
         //printf("hihihi %d\n", user.getNumJoints());
         for( int i = 0; i < user.getNumJoints();  ++i) {
-            printf("DDD: %f\n", user.getJoint(JOINT_LEFT_HAND).getProjectivePosition().x);
+            //printf("DDD: %f\n", user.getJoint(JOINT_LEFT_HAND).getProjectivePosition().x);
             seeker.x = user.getJoint(JOINT_LEFT_HAND).getProjectivePosition().x * 2;
             seeker.y = user.getJoint(JOINT_LEFT_HAND).getProjectivePosition().y * 800/480;
         }

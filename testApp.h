@@ -29,8 +29,11 @@ public:
     
     ofTrueTypeFont verdana;
     
+    ofPoint leftHand;
     ofPoint seeker;
     
+    map<Joint, ofPoint> userJoints;
+
 //    enum Joint {
 //        
 //        // start at root joint
