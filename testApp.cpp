@@ -452,8 +452,9 @@ void testApp::draw(){
             ofCircle(it->second.x, it->second.y, 50);
         }
     }
-    flock.draw();
     ofSetColor(255, 255, 255);
+    flock.draw();
+    
 }
 
 //--------------------------------------------------------------
