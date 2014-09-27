@@ -4,6 +4,7 @@
 #include "ofxOpenNI.h"
 #include "ofMain.h"
 #include "ofxFlocking.h"
+#include "ofxNetwork.h"
 
 class testApp : public ofBaseApp{
 
@@ -24,6 +25,8 @@ public:
 
     void userEvent(ofxOpenNIUserEvent & event);
     
+    string pointToString(ofPoint target);
+    
 	ofxOpenNI openNIDevice;
     ofxFlocking flock;
     
@@ -33,6 +36,8 @@ public:
     ofPoint seeker;
     
     map<Joint, ofPoint> userJoints;
+    
+    ofxUDPManager udpConnection;
 
 //    enum Joint {
 //        

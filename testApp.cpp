@@ -2,6 +2,17 @@
 
 //--------------------------------------------------------------
 void testApp::setup() {
+    // we don't want to be running to fast
+	ofSetVerticalSync(true);
+	ofSetFrameRate(60);
+    
+    //create the socket and set to send to 127.0.0.1:11999
+	udpConnection.Create();
+	udpConnection.Connect("10.73.39.126",11999);
+    udpConnection.Bind(11999);
+	udpConnection.SetNonBlocking(true);
+    
+    
     ofBackground(0, 0, 0);
     
     ofSetLogLevel(OF_LOG_VERBOSE);
@@ -42,6 +53,14 @@ void testApp::setup() {
 
 //--------------------------------------------------------------
 void testApp::update(){
+    char udpMessage[100000];
+	udpConnection.Receive(udpMessage,100000);
+	string message=udpMessage;
+    printf("GET MESSAGE %s \n", message.c_str());
+    
+    string send = pointToString(seeker);
+	udpConnection.Send(send.c_str(),send.length());
+    
     openNIDevice.update();
     
     for (int i = 0; i < flock.boids.size(); ++i) {
@@ -54,6 +73,17 @@ void testApp::update(){
     }
     flock.update();
 }
+
+string testApp::pointToString(ofPoint target) {
+    string result = "";
+    
+    result += target.x;
+    result += ",";
+    result += target.y;
+
+    return result;
+}
+
 
 //--------------------------------------------------------------
 void testApp::draw(){
