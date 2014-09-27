@@ -49,6 +49,8 @@ public:
     
     ofxUDPManager udpConnection;
     
+    bool isConnected;
+    
 //    enum Joint {
 //        
 //        // start at root joint

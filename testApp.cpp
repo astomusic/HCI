@@ -197,6 +197,11 @@ void testApp::update(){
 	udpConnection.Receive(udpMessage,100000);
 	string message=udpMessage;
     printf("message : %s \n", message.c_str());
+    if(message == " ") {
+        isConnected = false;
+    } else {
+        isConnected = true;
+    }
     stringToPoint(message);
     
     if(userJoints[JOINT_LEFT_HAND].x != 0) {
@@ -297,7 +302,7 @@ string testApp::pointToString() {
     
     if(userJoints[JOINT_LEFT_HAND].x != 0) {
         map<Joint, ofPoint>::iterator it;
-        for(it=userJoints.begin() ; it != userJoints.end() ; it++) {
+        for(it=userJoints.begin() ; it != userJoints.find(JOINT_COUNT) ; it++) {
             printf("%d joint - %f \n", it->first, it->second.x);
             result << it->second.x;
             result << ",";
@@ -433,7 +438,7 @@ void testApp::draw(){
     
     // draw some info regarding frame counts etc
 	//ofSetColor(255, 255, 0);
-    if(RemoteUserJoints[JOINT_LEFT_HAND].x != 0) {
+    if(isConnected) {
         map<Joint, ofPoint>::iterator it;
         for(it=RemoteUserJoints.begin() ; it != RemoteUserJoints.end() ; it++) {
             ofCircle(it->second.x, it->second.y, 50);
