@@ -40,10 +40,12 @@ public:
     
     int numHands;
     
+    //map<Joint, ofPoint>::iterator itUserJoints;
+    
     map<Joint, ofPoint> userJoints;
     
     ofxUDPManager udpConnection;
-
+    
 //    enum Joint {
 //        
 //        // start at root joint

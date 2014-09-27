@@ -184,6 +184,10 @@ void testApp::setup() {
     flock.addBoid(1100, 500);
     flock.addBoid(1100, 550);
     
+
+    for ( int i = 0 ; i < JOINT_UNKOWN ; i++ ){
+        userJoints[(Joint)i] = ofPoint(0,0);
+    }
     
 }
 
@@ -198,36 +202,51 @@ void testApp::update(){
     //string send = pointToString(seeker);
 	//udpConnection.Send(send.c_str(),send.length());
     
-    openNIDevice.update();
+    
     //local
-    // for (seeker in seekers)
-    for (int i = 0; i < flock.boids.size(); ++i) {
-        if (flock.boids[i].loc.x - 50 <= leftHand.x && leftHand.x <= flock.boids[i].loc.x + 50
-            && flock.boids[i].loc.y - 50 <= leftHand.y && leftHand.y <= flock.boids[i].loc.y + 50) {
-            flock.boids[i].avoid(leftHand);
-            flock.boids[i].joint = JOINT_LEFT_HAND;
-            // flock.boids[i].setSeeker = seekerId;
-        } else {
-            if (flock.boids[i].joint == JOINT_LEFT_HAND){
-                flock.boids[i].arrive(flock.boids[i].initPosition);
+    map<Joint, ofPoint>::iterator it;
+    for(it=userJoints.begin() ; it != userJoints.end() ; it++) {
+        for (int i = 0; i < flock.boids.size(); ++i) {
+            if (flock.boids[i].loc.x - 50 <= it->second.x && it->second.x <= flock.boids[i].loc.x + 50
+                && flock.boids[i].loc.y - 50 <= it->second.y && it->second.y <= flock.boids[i].loc.y + 50) {
+                flock.boids[i].avoid(it->second);
+                flock.boids[i].joint = it->first;
+            } else {
+                if (flock.boids[i].joint == it->first){
+                    flock.boids[i].arrive(flock.boids[i].initPosition);
+                }
             }
         }
-        //if (boids[i]->seeker.x, y +- 50 ) arrive
     }
     
-    for (int i = 0; i < flock.boids.size(); ++i) {
-        if (flock.boids[i].loc.x - 50 <= rightHand.x && rightHand.x <= flock.boids[i].loc.x + 50
-            && flock.boids[i].loc.y - 50 <= rightHand.y && rightHand.y <= flock.boids[i].loc.y + 50) {
-            flock.boids[i].avoid(rightHand);
-            flock.boids[i].joint = JOINT_RIGHT_HAND;
-            // flock.boids[i].setSeeker = seekerId;
-        } else {
-            if (flock.boids[i].joint == JOINT_RIGHT_HAND){
-                flock.boids[i].arrive(flock.boids[i].initPosition);
-            }
-        }
-        //if (boids[i]->seeker.x, y +- 50 ) arrive
-    }
+    // for (seeker in seekers)
+//    for (int i = 0; i < flock.boids.size(); ++i) {
+//        if (flock.boids[i].loc.x - 50 <= leftHand.x && leftHand.x <= flock.boids[i].loc.x + 50
+//            && flock.boids[i].loc.y - 50 <= leftHand.y && leftHand.y <= flock.boids[i].loc.y + 50) {
+//            flock.boids[i].avoid(leftHand);
+//            flock.boids[i].joint = JOINT_LEFT_HAND;
+//            // flock.boids[i].setSeeker = seekerId;
+//        } else {
+//            if (flock.boids[i].joint == JOINT_LEFT_HAND){
+//                flock.boids[i].arrive(flock.boids[i].initPosition);
+//            }
+//        }
+//        //if (boids[i]->seeker.x, y +- 50 ) arrive
+//    }
+//    
+//    for (int i = 0; i < flock.boids.size(); ++i) {
+//        if (flock.boids[i].loc.x - 50 <= rightHand.x && rightHand.x <= flock.boids[i].loc.x + 50
+//            && flock.boids[i].loc.y - 50 <= rightHand.y && rightHand.y <= flock.boids[i].loc.y + 50) {
+//            flock.boids[i].avoid(rightHand);
+//            flock.boids[i].joint = JOINT_RIGHT_HAND;
+//            // flock.boids[i].setSeeker = seekerId;
+//        } else {
+//            if (flock.boids[i].joint == JOINT_RIGHT_HAND){
+//                flock.boids[i].arrive(flock.boids[i].initPosition);
+//            }
+//        }
+//        //if (boids[i]->seeker.x, y +- 50 ) arrive
+//    }
     //network
 //    for (int i = 0; i < flock.boids.size(); ++i) {
 //        if (flock.boids[i].loc.x - 50 <= networkSeeker.x && networkSeeker.x <= flock.boids[i].loc.x + 50
@@ -239,6 +258,12 @@ void testApp::update(){
 //    }
     
     flock.update();
+    openNIDevice.update();
+    
+//    map<Joint, ofPoint>::iterator it;
+//    for(it=userJoints.begin() ; it != userJoints.end() ; it++) {
+//        printf("%d joint - %f \n", it->first, it->second.x);
+//    }
 }
 
 string testApp::pointToString(ofPoint target) {
@@ -282,18 +307,25 @@ void testApp::draw(){
     //printf("HOHOHO %d\n", openNIDevice.getCurrentTrackedUsers()[0].getNumJoints());
     
     if (openNIDevice.getCurrentTrackedUsers().size() > 0) {
-        ofxOpenNIUser & user = openNIDevice.getTrackedUser(0);
+        printf("SIZE!!!!!!!!!!!!! %lu\n", openNIDevice.getCurrentTrackedUsers().size());
+        ofxOpenNIUser & user = openNIDevice.getTrackedUser(openNIDevice.getCurrentTrackedUsers().size()-1);
         //printf("hihihi %d\n", user.getNumJoints());
         for( int i = 0; i < user.getNumJoints();  ++i) {
             //printf("DDD: %f\n", user.getJoint(JOINT_LEFT_HAND).getProjectivePosition().x);
-            leftHand.x = user.getJoint(JOINT_LEFT_HAND).getProjectivePosition().x * 2;
-            leftHand.y = user.getJoint(JOINT_LEFT_HAND).getProjectivePosition().y * 800/480;
+//            leftHand.x = user.getJoint(JOINT_LEFT_HAND).getProjectivePosition().x * 2;
+//            leftHand.y = user.getJoint(JOINT_LEFT_HAND).getProjectivePosition().y * 800/480;
+//            
+//            rightHand.x = user.getJoint(JOINT_RIGHT_HAND).getProjectivePosition().x * 2;
+//            rightHand.y = user.getJoint(JOINT_RIGHT_HAND).getProjectivePosition().y * 800/480;
+//            
+//            neck.x = user.getJoint(JOINT_NECK).getProjectivePosition().x * 2;
+//            neck.y = user.getJoint(JOINT_NECK).getProjectivePosition().y * 800/480;
             
-            rightHand.x = user.getJoint(JOINT_RIGHT_HAND).getProjectivePosition().x * 2;
-            rightHand.y = user.getJoint(JOINT_RIGHT_HAND).getProjectivePosition().y * 800/480;
+            map<Joint, ofPoint>::iterator it;
+            for(it=userJoints.begin() ; it != userJoints.end() ; it++) {
+                userJoints[it->first] = ofPoint(user.getJoint(it->first).getProjectivePosition().x*2,user.getJoint(it->first).getProjectivePosition().y*800/480);
+            }
             
-            neck.x = user.getJoint(JOINT_NECK).getProjectivePosition().x * 2;
-            neck.y = user.getJoint(JOINT_NECK).getProjectivePosition().y * 800/480;
         }
     }
     
