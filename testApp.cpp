@@ -446,7 +446,7 @@ void testApp::draw(){
         }
     }
     ofSetColor(0, 0, 255);
-    if(userJoints[JOINT_LEFT_HAND].x != 0) {
+    if(userNum > 0) {
         map<Joint, ofPoint>::iterator it;
         for(it=userJoints.begin() ; it != userJoints.end() ; it++) {
             ofCircle(it->second.x, it->second.y, 50);
