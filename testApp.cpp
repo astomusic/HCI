@@ -185,7 +185,7 @@ void testApp::setup() {
     flock.addBoid(1100, 550);
     
 
-    for ( int i = 0 ; i < JOINT_UNKOWN ; i++ ){
+    for ( int i = 0 ; i < JOINT_UNKOWN-2 ; i++ ){
         userJoints[(Joint)i] = ofPoint(0,0);
     }
     
@@ -368,7 +368,7 @@ void testApp::draw(){
     ofPushMatrix();
     // draw debug (ie., image, depth, skeleton)
     //openNIDevice.drawDebug();
-    openNIDevice.drawSkeletons();
+    //openNIDevice.drawSkeletons();
     ofPopMatrix();
     
     //printf("HAHAHA: %l\n", openNIDevice.getCurrentTrackedUsers().size());
@@ -438,9 +438,17 @@ void testApp::draw(){
     
     // draw some info regarding frame counts etc
 	//ofSetColor(255, 255, 0);
+    ofSetColor(255, 0, 0);
     if(isConnected) {
         map<Joint, ofPoint>::iterator it;
         for(it=RemoteUserJoints.begin() ; it != RemoteUserJoints.end() ; it++) {
+            ofCircle(it->second.x, it->second.y, 50);
+        }
+    }
+    ofSetColor(0, 0, 255);
+    if(userJoints[JOINT_LEFT_HAND].x != 0) {
+        map<Joint, ofPoint>::iterator it;
+        for(it=userJoints.begin() ; it != userJoints.end() ; it++) {
             ofCircle(it->second.x, it->second.y, 50);
         }
     }
