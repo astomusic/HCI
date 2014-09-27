@@ -222,8 +222,11 @@ void testApp::update(){
                 //flock.boids[i].joint = it->first;
                 flock.boids[i].checker = it->first;
                 //flag[it->first] = 1;
+                if(userNum == 0){
+                    flock.boids[i].arrive(flock.boids[i].initPosition);
+                }
             } else {
-                if (flock.boids[i].checker == it->first){
+                if (flock.boids[i].checker == it->first || userNum == 0){
                     flock.boids[i].arrive(flock.boids[i].initPosition);
                 }
             }
