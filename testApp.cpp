@@ -199,8 +199,11 @@ void testApp::update(){
     printf("message : %s \n", message.c_str());
     stringToPoint(message);
     
-    string send = pointToString();
-	udpConnection.Send(send.c_str(),send.length());
+    if(userJoints[JOINT_LEFT_HAND].x != 0) {
+        string send = pointToString();
+        udpConnection.Send(send.c_str(),send.length());
+    }
+    
     
     
     //local
@@ -292,14 +295,17 @@ string testApp::pointToString() {
 //    result << ",";
 //    result << target.y;
     
-    map<Joint, ofPoint>::iterator it;
-    for(it=userJoints.begin() ; it != userJoints.end() ; it++) {
-        printf("%d joint - %f \n", it->first, it->second.x);
-        result << it->second.x;
-        result << ",";
-        result << it->second.y;
-        result << "/";
+    if(userJoints[JOINT_LEFT_HAND].x != 0) {
+        map<Joint, ofPoint>::iterator it;
+        for(it=userJoints.begin() ; it != userJoints.end() ; it++) {
+            printf("%d joint - %f \n", it->first, it->second.x);
+            result << it->second.x;
+            result << ",";
+            result << it->second.y;
+            result << "/";
+        }
     }
+
 
     return result.str();
 }
@@ -427,12 +433,12 @@ void testApp::draw(){
     
     // draw some info regarding frame counts etc
 	//ofSetColor(255, 255, 0);
-    
-    map<Joint, ofPoint>::iterator it;
-    for(it=RemoteUserJoints.begin() ; it != RemoteUserJoints.end() ; it++) {
-        ofCircle(it->second.x, it->second.y, 50);
+    if(RemoteUserJoints[JOINT_LEFT_HAND].x != 0) {
+        map<Joint, ofPoint>::iterator it;
+        for(it=RemoteUserJoints.begin() ; it != RemoteUserJoints.end() ; it++) {
+            ofCircle(it->second.x, it->second.y, 50);
+        }
     }
-
     flock.draw();
     ofSetColor(255, 255, 255);
 }
