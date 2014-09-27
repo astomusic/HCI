@@ -427,6 +427,11 @@ void testApp::draw(){
     
     // draw some info regarding frame counts etc
 	//ofSetColor(255, 255, 0);
+    
+    map<Joint, ofPoint>::iterator it;
+    for(it=RemoteUserJoints.begin() ; it != RemoteUserJoints.end() ; it++) {
+        ofCircle(it->second.x, it->second.y, 50);
+    }
 
     flock.draw();
     ofSetColor(255, 255, 255);
