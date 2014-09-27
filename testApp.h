@@ -34,8 +34,11 @@ public:
     ofTrueTypeFont verdana;
     
     ofPoint leftHand;
-    ofPoint seeker;
+    ofPoint rightHand;
+    ofPoint neck;
     ofPoint networkSeeker;
+    
+    int numHands;
     
     map<Joint, ofPoint> userJoints;
     

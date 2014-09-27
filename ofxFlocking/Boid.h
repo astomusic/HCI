@@ -10,6 +10,7 @@
 #ifndef BOID_H
 #define BOID_H
 
+#include "ofxOpenNI.h"
 #include "ofMain.h"
 
 class Boid {
@@ -41,6 +42,8 @@ public:
     ofPoint initPosition;
     
     ofImage feather;
+    
+    Joint joint;
 };
 
 #endif

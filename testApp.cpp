@@ -23,6 +23,11 @@ void testApp::setup() {
     openNIDevice.setRegister(true);
     openNIDevice.setMirror(true);
     openNIDevice.addUserGenerator();
+    
+//    openNIDevice.addHandsGenerator();
+//    openNIDevice.addAllHandFocusGestures();
+//    openNIDevice.setMaxNumHands(10);
+    
     openNIDevice.setMaxNumUsers(5);
     openNIDevice.start();
     
@@ -190,18 +195,38 @@ void testApp::update(){
     printf("LEFT HAND POSITION : %s \n", message.c_str());
     networkSeeker = stringToPoint(message);
     
-    string send = pointToString(seeker);
-	udpConnection.Send(send.c_str(),send.length());
+    //string send = pointToString(seeker);
+	//udpConnection.Send(send.c_str(),send.length());
     
     openNIDevice.update();
     //local
+    // for (seeker in seekers)
     for (int i = 0; i < flock.boids.size(); ++i) {
-        if (flock.boids[i].loc.x - 50 <= seeker.x && seeker.x <= flock.boids[i].loc.x + 50
-            && flock.boids[i].loc.y - 50 <= seeker.y && seeker.y <= flock.boids[i].loc.y + 50) {
-            flock.boids[i].avoid(seeker);
+        if (flock.boids[i].loc.x - 50 <= leftHand.x && leftHand.x <= flock.boids[i].loc.x + 50
+            && flock.boids[i].loc.y - 50 <= leftHand.y && leftHand.y <= flock.boids[i].loc.y + 50) {
+            flock.boids[i].avoid(leftHand);
+            flock.boids[i].joint = JOINT_LEFT_HAND;
+            // flock.boids[i].setSeeker = seekerId;
         } else {
-            flock.boids[i].arrive(flock.boids[i].initPosition);
+            if (flock.boids[i].joint == JOINT_LEFT_HAND){
+                flock.boids[i].arrive(flock.boids[i].initPosition);
+            }
         }
+        //if (boids[i]->seeker.x, y +- 50 ) arrive
+    }
+    
+    for (int i = 0; i < flock.boids.size(); ++i) {
+        if (flock.boids[i].loc.x - 50 <= rightHand.x && rightHand.x <= flock.boids[i].loc.x + 50
+            && flock.boids[i].loc.y - 50 <= rightHand.y && rightHand.y <= flock.boids[i].loc.y + 50) {
+            flock.boids[i].avoid(rightHand);
+            flock.boids[i].joint = JOINT_RIGHT_HAND;
+            // flock.boids[i].setSeeker = seekerId;
+        } else {
+            if (flock.boids[i].joint == JOINT_RIGHT_HAND){
+                flock.boids[i].arrive(flock.boids[i].initPosition);
+            }
+        }
+        //if (boids[i]->seeker.x, y +- 50 ) arrive
     }
     //network
 //    for (int i = 0; i < flock.boids.size(); ++i) {
@@ -261,12 +286,32 @@ void testApp::draw(){
         //printf("hihihi %d\n", user.getNumJoints());
         for( int i = 0; i < user.getNumJoints();  ++i) {
             //printf("DDD: %f\n", user.getJoint(JOINT_LEFT_HAND).getProjectivePosition().x);
-            seeker.x = user.getJoint(JOINT_LEFT_HAND).getProjectivePosition().x * 2;
-            seeker.y = user.getJoint(JOINT_LEFT_HAND).getProjectivePosition().y * 800/480;
+            leftHand.x = user.getJoint(JOINT_LEFT_HAND).getProjectivePosition().x * 2;
+            leftHand.y = user.getJoint(JOINT_LEFT_HAND).getProjectivePosition().y * 800/480;
+            
+            rightHand.x = user.getJoint(JOINT_RIGHT_HAND).getProjectivePosition().x * 2;
+            rightHand.y = user.getJoint(JOINT_RIGHT_HAND).getProjectivePosition().y * 800/480;
+            
+            neck.x = user.getJoint(JOINT_NECK).getProjectivePosition().x * 2;
+            neck.y = user.getJoint(JOINT_NECK).getProjectivePosition().y * 800/480;
         }
     }
-
     
+//    // get number of current hands
+//    numHands = openNIDevice.getNumTrackedHands();
+//    
+//    // iterate through users
+//    for (int i = 0; i < numHands; i++){
+//        
+//        // get a reference to this user
+//        ofxOpenNIHand & hand = openNIDevice.getTrackedHand(i);
+//        
+//        // get hand position
+//        ofPoint & handPosition = hand.getPosition();
+//        
+//        ofCircle(handPosition.x * 2, handPosition.y* 800/480, 50);
+//
+//    }
     
     //int num= openNIDevice.getNumTrackedUsers();
     
