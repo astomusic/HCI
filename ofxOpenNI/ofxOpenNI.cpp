@@ -2975,7 +2975,9 @@ void XN_CALLBACK_TYPE ofxOpenNI::UserCB_handleLostUser(xn::UserGenerator& userGe
     ofxOpenNI* openNI = static_cast<ofxOpenNI*>(pCookie);
 	ofLogVerbose(openNI->LOG_NAME) << "(CB) Lost user" << nID;
 	openNI->stopTrackingUser(nID);
-
+    
+//    map<XnUserID,ofxOpenNIUser> temp = openNI->getCurrentTrackedUsers();
+//    temp.erase(nID);
 }
 
 //--------------------------------------------------------------

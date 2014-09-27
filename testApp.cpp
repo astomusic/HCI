@@ -28,7 +28,7 @@ void testApp::setup() {
 //    openNIDevice.addAllHandFocusGestures();
 //    openNIDevice.setMaxNumHands(10);
     
-    openNIDevice.setMaxNumUsers(5);
+    openNIDevice.setMaxNumUsers(10);
     openNIDevice.start();
     
     // set properties for all user masks and point clouds
@@ -196,11 +196,11 @@ void testApp::update(){
     char udpMessage[100000];
 	udpConnection.Receive(udpMessage,100000);
 	string message=udpMessage;
-    printf("LEFT HAND POSITION : %s \n", message.c_str());
-    networkSeeker = stringToPoint(message);
+    printf("message : %s \n", message.c_str());
+    stringToPoint(message);
     
-    //string send = pointToString(seeker);
-	//udpConnection.Send(send.c_str(),send.length());
+    string send = pointToString();
+	udpConnection.Send(send.c_str(),send.length());
     
     
     //local
@@ -266,31 +266,67 @@ void testApp::update(){
 //    }
 }
 
-string testApp::pointToString(ofPoint target) {
+string testApp::pointToString() {
     stringstream result;
     
-    result << target.x;
-    result << ",";
-    result << target.y;
+//    result << target.x;
+//    result << ",";
+//    result << target.y;
+    
+    map<Joint, ofPoint>::iterator it;
+    for(it=userJoints.begin() ; it != userJoints.end() ; it++) {
+        printf("%d joint - %f \n", it->first, it->second.x);
+        result << it->second.x;
+        result << ",";
+        result << it->second.y;
+        result << "/";
+    }
 
     return result.str();
 }
 
-ofPoint testApp::stringToPoint(string target) {
+void testApp::stringToPoint(string target) {
     ofPoint result;
+    vector<string> tokens;
+    Tokenize(target, tokens);
     
-    int comma = target.find(",");
-    printf("this is comma : %d \n", comma);
-    result.x = std::atof(target.substr(0, comma).c_str());
-    printf("this is result.x : %f \n", result.x);
-    result.y = std::atof(target.substr(comma+1, target.length()-comma).c_str());
-    printf("this is result.y : %f \n", result.y);
-    
-    
-    return result;
+    for(int i=0; i < tokens.size() ; i++) {
+        int comma = tokens[i].find(",");
+        result.x = std::atof(target.substr(0, comma).c_str());
+        result.y = std::atof(target.substr(comma+1, target.length()-comma).c_str());
+        RemoteUserJoints[(Joint)i] = result;
+
+    }
+
+//    int comma = target.find(",");
+//    //printf("this is comma : %d \n", comma);
+//    result.x = std::atof(target.substr(0, comma).c_str());
+//    //printf("this is result.x : %f \n", result.x);
+//    result.y = std::atof(target.substr(comma+1, target.length()-comma).c_str());
+//    //printf("this is result.y : %f \n", result.y);
+//    
+//    
+//    return result;
     
 }
 
+void testApp::Tokenize(const string& str, vector<string>& tokens, const string& delimiters)
+{
+    // 맨 첫 글자가 구분자인 경우 무시
+    string::size_type lastPos = str.find_first_not_of(delimiters, 0);
+    // 구분자가 아닌 첫 글자를 찾는다
+    string::size_type pos     = str.find_first_of(delimiters, lastPos);
+    
+    while (string::npos != pos || string::npos != lastPos)
+    {
+        // token을 찾았으니 vector에 추가한다
+        tokens.push_back(str.substr(lastPos, pos - lastPos));
+        // 구분자를 뛰어넘는다.  "not_of"에 주의하라
+        lastPos = str.find_first_not_of(delimiters, pos);
+        // 다음 구분자가 아닌 글자를 찾는다
+        pos = str.find_first_of(delimiters, lastPos);
+    }
+}
 
 //--------------------------------------------------------------
 void testApp::draw(){
@@ -305,21 +341,20 @@ void testApp::draw(){
     
     //printf("HAHAHA: %l\n", openNIDevice.getCurrentTrackedUsers().size());
     //printf("HOHOHO %d\n", openNIDevice.getCurrentTrackedUsers()[0].getNumJoints());
-    
-    if (openNIDevice.getCurrentTrackedUsers().size() > 0) {
-        printf("SIZE!!!!!!!!!!!!! %lu\n", openNIDevice.getCurrentTrackedUsers().size());
-        ofxOpenNIUser & user = openNIDevice.getTrackedUser(openNIDevice.getCurrentTrackedUsers().size()-1);
+    int userNum =  openNIDevice.getCurrentTrackedUsers().size();
+    for (int i=0 ; i<userNum ; ++i) {
+        ofxOpenNIUser & user = openNIDevice.getTrackedUser(i);
         //printf("hihihi %d\n", user.getNumJoints());
         for( int i = 0; i < user.getNumJoints();  ++i) {
             //printf("DDD: %f\n", user.getJoint(JOINT_LEFT_HAND).getProjectivePosition().x);
-//            leftHand.x = user.getJoint(JOINT_LEFT_HAND).getProjectivePosition().x * 2;
-//            leftHand.y = user.getJoint(JOINT_LEFT_HAND).getProjectivePosition().y * 800/480;
-//            
-//            rightHand.x = user.getJoint(JOINT_RIGHT_HAND).getProjectivePosition().x * 2;
-//            rightHand.y = user.getJoint(JOINT_RIGHT_HAND).getProjectivePosition().y * 800/480;
-//            
-//            neck.x = user.getJoint(JOINT_NECK).getProjectivePosition().x * 2;
-//            neck.y = user.getJoint(JOINT_NECK).getProjectivePosition().y * 800/480;
+            //            leftHand.x = user.getJoint(JOINT_LEFT_HAND).getProjectivePosition().x * 2;
+            //            leftHand.y = user.getJoint(JOINT_LEFT_HAND).getProjectivePosition().y * 800/480;
+            //
+            //            rightHand.x = user.getJoint(JOINT_RIGHT_HAND).getProjectivePosition().x * 2;
+            //            rightHand.y = user.getJoint(JOINT_RIGHT_HAND).getProjectivePosition().y * 800/480;
+            //
+            //            neck.x = user.getJoint(JOINT_NECK).getProjectivePosition().x * 2;
+            //            neck.y = user.getJoint(JOINT_NECK).getProjectivePosition().y * 800/480;
             
             map<Joint, ofPoint>::iterator it;
             for(it=userJoints.begin() ; it != userJoints.end() ; it++) {
@@ -328,6 +363,28 @@ void testApp::draw(){
             
         }
     }
+//    if (openNIDevice.getCurrentTrackedUsers().size() > 0) {
+//        printf("SIZE!!!!!!!!!!!!! %lu\n", openNIDevice.getCurrentTrackedUsers().size());
+//        ofxOpenNIUser & user = openNIDevice.getTrackedUser(0);
+//        //printf("hihihi %d\n", user.getNumJoints());
+//        for( int i = 0; i < user.getNumJoints();  ++i) {
+//            //printf("DDD: %f\n", user.getJoint(JOINT_LEFT_HAND).getProjectivePosition().x);
+////            leftHand.x = user.getJoint(JOINT_LEFT_HAND).getProjectivePosition().x * 2;
+////            leftHand.y = user.getJoint(JOINT_LEFT_HAND).getProjectivePosition().y * 800/480;
+////            
+////            rightHand.x = user.getJoint(JOINT_RIGHT_HAND).getProjectivePosition().x * 2;
+////            rightHand.y = user.getJoint(JOINT_RIGHT_HAND).getProjectivePosition().y * 800/480;
+////            
+////            neck.x = user.getJoint(JOINT_NECK).getProjectivePosition().x * 2;
+////            neck.y = user.getJoint(JOINT_NECK).getProjectivePosition().y * 800/480;
+//            
+//            map<Joint, ofPoint>::iterator it;
+//            for(it=userJoints.begin() ; it != userJoints.end() ; it++) {
+//                userJoints[it->first] = ofPoint(user.getJoint(it->first).getProjectivePosition().x*2,user.getJoint(it->first).getProjectivePosition().y*800/480);
+//            }
+//            
+//        }
+//    }
     
 //    // get number of current hands
 //    numHands = openNIDevice.getNumTrackedHands();

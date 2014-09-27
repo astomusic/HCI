@@ -25,8 +25,10 @@ public:
 
     void userEvent(ofxOpenNIUserEvent & event);
     
-    string pointToString(ofPoint target);
-    ofPoint stringToPoint(string target);
+    void Tokenize(const string& str, vector<string>& tokens, const string& delimiters = "/");
+    
+    string pointToString();
+    void stringToPoint(string target);
     
 	ofxOpenNI openNIDevice;
     ofxFlocking flock;
@@ -43,6 +45,7 @@ public:
     //map<Joint, ofPoint>::iterator itUserJoints;
     
     map<Joint, ofPoint> userJoints;
+    map<Joint, ofPoint> RemoteUserJoints;
     
     ofxUDPManager udpConnection;
     
