@@ -41,6 +41,7 @@ public:
     ofPoint networkSeeker;
     
     int numHands;
+    int userNum;
     
     //map<Joint, ofPoint>::iterator itUserJoints;
     

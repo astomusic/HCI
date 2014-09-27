@@ -197,14 +197,14 @@ void testApp::update(){
 	udpConnection.Receive(udpMessage,100000);
 	string message=udpMessage;
     printf("message : %s \n", message.c_str());
-    if(message == " ") {
+    if(message == "" || message.empty()) {
         isConnected = false;
     } else {
         isConnected = true;
     }
     stringToPoint(message);
     
-    if(userJoints[JOINT_LEFT_HAND].x != 0) {
+    if(userNum>0) {
         string send = pointToString();
         udpConnection.Send(send.c_str(),send.length());
     }
@@ -373,7 +373,7 @@ void testApp::draw(){
     
     //printf("HAHAHA: %l\n", openNIDevice.getCurrentTrackedUsers().size());
     //printf("HOHOHO %d\n", openNIDevice.getCurrentTrackedUsers()[0].getNumJoints());
-    int userNum =  openNIDevice.getCurrentTrackedUsers().size();
+    userNum =  openNIDevice.getCurrentTrackedUsers().size();
     for (int i=0 ; i<userNum ; ++i) {
         ofxOpenNIUser & user = openNIDevice.getTrackedUser(i);
         //printf("hihihi %d\n", user.getNumJoints());
