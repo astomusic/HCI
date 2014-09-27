@@ -43,12 +43,143 @@ void testApp::setup() {
       
  //   verdana.loadFont(ofToDataPath("verdana.ttf"), 24);
     
-    for (int i = 0; i < 10 ; i++){
-        flock.addBoid(i*50, i*50);
-        printf("\n\n\n%f\n\n\n",flock.boids[i].initPosition.x);
-    }
+//    for (int i = 0; i < 10 ; i++){
+//        flock.addBoid(i*50, i*50);
+//        printf("\n\n\n%f\n\n\n",flock.boids[i].initPosition.x);
+//    }
     
+//    flock.addBoid(0, 10);
+//    flock.addBoid(50, 10);
+//    flock.addBoid(100, 10);
+//    flock.addBoid(150, 10);
+//    flock.addBoid(200, 10);
+//    flock.addBoid(250, 10);
+//    flock.addBoid(300, 10);
+//    flock.addBoid(350, 10);
+//    flock.addBoid(400, 10);
+//    flock.addBoid(450, 10);
+//    flock.addBoid(500, 10);
+//    flock.addBoid(550, 10);
+//    flock.addBoid(600, 10);
+//    flock.addBoid(650, 10);
+//    flock.addBoid(700, 10);
+//    flock.addBoid(750, 10);
+//    flock.addBoid(800, 10);
+//    flock.addBoid(850, 10);
+//    flock.addBoid(900, 10);
+//    flock.addBoid(950, 10);
+//    flock.addBoid(1000, 10);
+//    flock.addBoid(1050, 10);
+//    flock.addBoid(1100, 10);
+//    flock.addBoid(1150, 10);
+//    flock.addBoid(1200, 10);
+//    flock.addBoid(1250, 10);
+//    flock.addBoid(1300, 10);
+//    flock.addBoid(1350, 10);
+//    
+//    flock.addBoid(10, 0);
+//    flock.addBoid(10, 50);
+//    flock.addBoid(10, 100);
+//    flock.addBoid(10, 150);
+//    flock.addBoid(10, 200);
+//    flock.addBoid(10, 250);
+//    flock.addBoid(10, 300);
+//    flock.addBoid(10, 350);
+//    flock.addBoid(10, 400);
+//    flock.addBoid(10, 450);
+//    flock.addBoid(10, 500);
+//    flock.addBoid(10, 550);
+//    flock.addBoid(10, 600);
+//    flock.addBoid(10, 650);
+//    flock.addBoid(10, 700);
+//    flock.addBoid(10, 750);
+    
+    // N
+    flock.addBoid(100, 200);
+    flock.addBoid(100, 250);
+    flock.addBoid(100, 300);
+    flock.addBoid(100, 350);
+    flock.addBoid(100, 400);
+    flock.addBoid(100, 450);
+    flock.addBoid(100, 500);
+    flock.addBoid(100, 550);
+    
+    flock.addBoid(300, 200);
+    flock.addBoid(300, 250);
+    flock.addBoid(300, 300);
+    flock.addBoid(300, 350);
+    flock.addBoid(300, 400);
+    flock.addBoid(300, 450);
+    flock.addBoid(300, 500);
+    flock.addBoid(300, 550);
+    
+    flock.addBoid(100 + (200/7)*1 , 250);
+    flock.addBoid(100 + (200/7)*2 , 300);
+    flock.addBoid(100 + (200/7)*3 , 350);
+    flock.addBoid(100 + (200/7)*4 , 400);
+    flock.addBoid(100 + (200/7)*5 , 450);
+    flock.addBoid(100 + (200/7)*6 , 500);
+    
+    // E
+    flock.addBoid(400, 200);
+    flock.addBoid(400, 250);
+    flock.addBoid(400, 300);
+    flock.addBoid(400, 350);
+    flock.addBoid(400, 400);
+    flock.addBoid(400, 450);
+    flock.addBoid(400, 500);
+    flock.addBoid(400, 550);
+    
+    flock.addBoid(450, 200);
+    flock.addBoid(500, 200);
+    flock.addBoid(550, 200);
+    flock.addBoid(600, 200);
 
+    flock.addBoid(450, 375);
+    flock.addBoid(500, 375);
+    flock.addBoid(550, 375);
+    flock.addBoid(600, 375);
+    
+    flock.addBoid(450, 550);
+    flock.addBoid(500, 550);
+    flock.addBoid(550, 550);
+    flock.addBoid(600, 550);
+    
+    //X
+    flock.addBoid(700, 200);
+    flock.addBoid(700 + (200/7)*1 , 250);
+    flock.addBoid(700 + (200/7)*2 , 300);
+    flock.addBoid(700 + (200/7)*3 , 350);
+    flock.addBoid(700 + (200/7)*4 , 400);
+    flock.addBoid(700 + (200/7)*5 , 450);
+    flock.addBoid(700 + (200/7)*6 , 500);
+    flock.addBoid(900, 550);
+    
+    flock.addBoid(700, 550);
+    flock.addBoid(700 + (200/7)*1 , 500);
+    flock.addBoid(700 + (200/7)*2 , 450);
+    flock.addBoid(700 + (200/7)*3 , 400);
+    flock.addBoid(700 + (200/7)*4 , 350);
+    flock.addBoid(700 + (200/7)*5 , 300);
+    flock.addBoid(700 + (200/7)*6 , 250);
+    flock.addBoid(900, 200);
+    
+    //T
+    flock.addBoid(1000, 200);
+    flock.addBoid(1050, 200);
+    flock.addBoid(1100, 200);
+    flock.addBoid(1150, 200);
+    flock.addBoid(1200, 200);
+    
+    flock.addBoid(1100, 250);
+    flock.addBoid(1100, 300);
+    flock.addBoid(1100, 350);
+    flock.addBoid(1100, 400);
+    flock.addBoid(1100, 450);
+    flock.addBoid(1100, 500);
+    flock.addBoid(1100, 550);
+    
+    
 }
 
 //--------------------------------------------------------------
@@ -56,21 +187,32 @@ void testApp::update(){
     char udpMessage[100000];
 	udpConnection.Receive(udpMessage,100000);
 	string message=udpMessage;
-    stringToPoint(message);
+    printf("LEFT HAND POSITION : %s \n", message.c_str());
+    networkSeeker = stringToPoint(message);
     
     string send = pointToString(seeker);
 	udpConnection.Send(send.c_str(),send.length());
     
     openNIDevice.update();
-    
+    //local
     for (int i = 0; i < flock.boids.size(); ++i) {
         if (flock.boids[i].loc.x - 50 <= seeker.x && seeker.x <= flock.boids[i].loc.x + 50
-            && flock.boids[i].loc.y - 50 <= seeker.y && flock.boids[i].loc.y + 50) {
+            && flock.boids[i].loc.y - 50 <= seeker.y && seeker.y <= flock.boids[i].loc.y + 50) {
             flock.boids[i].avoid(seeker);
         } else {
             flock.boids[i].arrive(flock.boids[i].initPosition);
         }
     }
+    //network
+//    for (int i = 0; i < flock.boids.size(); ++i) {
+//        if (flock.boids[i].loc.x - 50 <= networkSeeker.x && networkSeeker.x <= flock.boids[i].loc.x + 50
+//            && flock.boids[i].loc.y - 50 <= networkSeeker.y && networkSeeker.y <= flock.boids[i].loc.y + 50) {
+//            flock.boids[i].avoid(networkSeeker);
+//        } else {
+//            flock.boids[i].arrive(flock.boids[i].initPosition);
+//        }
+//    }
+    
     flock.update();
 }
 
@@ -88,10 +230,15 @@ ofPoint testApp::stringToPoint(string target) {
     ofPoint result;
     
     int comma = target.find(",");
+    printf("this is comma : %d \n", comma);
     result.x = std::atof(target.substr(0, comma).c_str());
+    printf("this is result.x : %f \n", result.x);
     result.y = std::atof(target.substr(comma+1, target.length()-comma).c_str());
-
+    printf("this is result.y : %f \n", result.y);
+    
+    
     return result;
+    
 }
 
 
@@ -124,7 +271,7 @@ void testApp::draw(){
     //int num= openNIDevice.getNumTrackedUsers();
     
     // draw some info regarding frame counts etc
-	ofSetColor(255, 255, 0);
+	//ofSetColor(255, 255, 0);
 
     flock.draw();
     ofSetColor(255, 255, 255);

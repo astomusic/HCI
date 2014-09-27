@@ -18,6 +18,8 @@ Boid::Boid() {
     maxspeed = 4;
     maxforce = 0.1;
     initPosition = ofPoint(0, 0);
+    feather.loadImage("feather.png");
+    //feather.setAnchorPercent(.5, .5);
 }
 
 Boid::Boid(int x, int y) {
@@ -28,6 +30,8 @@ Boid::Boid(int x, int y) {
     maxspeed = 4;
     maxforce = 0.1;
     initPosition = ofPoint(x, y);
+    feather.loadImage("feather.png");
+    //feather.setAnchorPercent(.5, .5);
 }
 
 // Method to update location
@@ -99,11 +103,12 @@ void Boid::draw() {
     ofPushMatrix();
     ofTranslate(loc.x, loc.y);
     ofRotateZ(heading2D);
-	ofBeginShape();
-    ofVertex(0, -r*2);
-    ofVertex(-r, r*2);
-    ofVertex(r, r*2);
-    ofEndShape(true);	
+//	ofBeginShape();
+//    ofVertex(0, -r*2);
+//    ofVertex(-r, r*2);
+//    ofVertex(r, r*2);
+//    ofEndShape(true);
+    feather.draw(-40,-40);
     ofPopMatrix();
 	ofPopStyle();
 }

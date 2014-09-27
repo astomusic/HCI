@@ -39,6 +39,8 @@ public:
 	float maxspeed;
     
     ofPoint initPosition;
+    
+    ofImage feather;
 };
 
 #endif

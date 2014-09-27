@@ -35,6 +35,7 @@ public:
     
     ofPoint leftHand;
     ofPoint seeker;
+    ofPoint networkSeeker;
     
     map<Joint, ofPoint> userJoints;
     
