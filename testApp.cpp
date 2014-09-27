@@ -211,10 +211,11 @@ void testApp::update(){
             if (flock.boids[i].loc.x - 50 <= it->second.x && it->second.x <= flock.boids[i].loc.x + 50
                 && flock.boids[i].loc.y - 50 <= it->second.y && it->second.y <= flock.boids[i].loc.y + 50) {
                 flock.boids[i].avoid(it->second);
-                flock.boids[i].joint = it->first;
-                flag[it->first] = 1;
+                //flock.boids[i].joint = it->first;
+                flock.boids[i].checker = it->first;
+                //flag[it->first] = 1;
             } else {
-                if (flock.boids[i].joint == it->first && flag[it->first]==1){
+                if (flock.boids[i].checker == it->first){
                     flock.boids[i].arrive(flock.boids[i].initPosition);
                 }
             }
@@ -226,10 +227,11 @@ void testApp::update(){
             if (flock.boids[i].loc.x - 50 <= it->second.x && it->second.x <= flock.boids[i].loc.x + 50
                 && flock.boids[i].loc.y - 50 <= it->second.y && it->second.y <= flock.boids[i].loc.y + 50) {
                 flock.boids[i].avoid(it->second);
-                flock.boids[i].joint = it->first;
-                flag[it->first + JOINT_UNKOWN] = 2;
+                //flock.boids[i].joint = it->first;
+                flock.boids[i].checker = it->first + 100;
+                //flag[it->first + JOINT_UNKOWN] = 2;
             } else {
-                if (flock.boids[i].joint == it->first && flag[it->first + JOINT_UNKOWN]==2){
+                if (flock.boids[i].checker == it->first + 100){
                     flock.boids[i].arrive(flock.boids[i].initPosition);
                 }
             }

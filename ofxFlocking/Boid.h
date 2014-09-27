@@ -44,6 +44,8 @@ public:
     ofImage feather;
     
     Joint joint;
+    
+    int checker;
 };
 
 #endif
