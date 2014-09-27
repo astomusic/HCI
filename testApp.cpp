@@ -56,7 +56,7 @@ void testApp::update(){
     char udpMessage[100000];
 	udpConnection.Receive(udpMessage,100000);
 	string message=udpMessage;
-    printf("GET MESSAGE %s \n", message.c_str());
+    printf("LEFT HAND POSITION : %s \n", message.c_str());
     
     string send = pointToString(seeker);
 	udpConnection.Send(send.c_str(),send.length());
@@ -75,13 +75,13 @@ void testApp::update(){
 }
 
 string testApp::pointToString(ofPoint target) {
-    string result = "";
+    stringstream result;
     
-    result += target.x;
-    result += ",";
-    result += target.y;
+    result << target.x;
+    result << ",";
+    result << target.y;
 
-    return result;
+    return result.str();
 }
 
 
