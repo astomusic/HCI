@@ -56,7 +56,7 @@ void testApp::update(){
     char udpMessage[100000];
 	udpConnection.Receive(udpMessage,100000);
 	string message=udpMessage;
-    printf("LEFT HAND POSITION : %s \n", message.c_str());
+    stringToPoint(message);
     
     string send = pointToString(seeker);
 	udpConnection.Send(send.c_str(),send.length());
@@ -82,6 +82,16 @@ string testApp::pointToString(ofPoint target) {
     result << target.y;
 
     return result.str();
+}
+
+ofPoint testApp::stringToPoint(string target) {
+    ofPoint result;
+    
+    int comma = target.find(",");
+    result.x = std::atof(target.substr(0, comma).c_str());
+    result.y = std::atof(target.substr(comma+1, target.length()-comma).c_str());
+
+    return result;
 }
 
 

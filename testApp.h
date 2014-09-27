@@ -26,6 +26,7 @@ public:
     void userEvent(ofxOpenNIUserEvent & event);
     
     string pointToString(ofPoint target);
+    ofPoint stringToPoint(string target);
     
 	ofxOpenNI openNIDevice;
     ofxFlocking flock;
