@@ -18,7 +18,7 @@ Boid::Boid() {
     maxspeed = 4;
     maxforce = 0.1;
     initPosition = ofPoint(0, 0);
-    feather.loadImage("feather.png");
+    feather.loadImage("apache.png");
     //feather.setAnchorPercent(.5, .5);
 }
 
@@ -30,7 +30,7 @@ Boid::Boid(int x, int y) {
     maxspeed = 4;
     maxforce = 0.1;
     initPosition = ofPoint(x, y);
-    feather.loadImage("feather.png");
+    feather.loadImage("apache.png");
     //feather.setAnchorPercent(.5, .5);
 }
 
