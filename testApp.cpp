@@ -219,6 +219,20 @@ void testApp::update(){
         }
     }
     
+    for(it=RemoteUserJoints.begin() ; it != RemoteUserJoints.end() ; it++) {
+        for (int i = 0; i < flock.boids.size(); ++i) {
+            if (flock.boids[i].loc.x - 50 <= it->second.x && it->second.x <= flock.boids[i].loc.x + 50
+                && flock.boids[i].loc.y - 50 <= it->second.y && it->second.y <= flock.boids[i].loc.y + 50) {
+                flock.boids[i].avoid(it->second);
+                flock.boids[i].joint = it->first;
+            } else {
+                if (flock.boids[i].joint == it->first){
+                    flock.boids[i].arrive(flock.boids[i].initPosition);
+                }
+            }
+        }
+    }
+    
     // for (seeker in seekers)
 //    for (int i = 0; i < flock.boids.size(); ++i) {
 //        if (flock.boids[i].loc.x - 50 <= leftHand.x && leftHand.x <= flock.boids[i].loc.x + 50
@@ -290,10 +304,12 @@ void testApp::stringToPoint(string target) {
     vector<string> tokens;
     Tokenize(target, tokens);
     
+    printf("token size: %lu\n", tokens.size());
+    printf("JOINT_UNKOWN size: %d\n", JOINT_UNKOWN);
     for(int i=0; i < tokens.size() ; i++) {
         int comma = tokens[i].find(",");
-        result.x = std::atof(target.substr(0, comma).c_str());
-        result.y = std::atof(target.substr(comma+1, target.length()-comma).c_str());
+        result.x = std::atof(tokens[i].substr(0, comma).c_str());
+        result.y = std::atof(tokens[i].substr(comma+1, target.length()-comma).c_str());
         RemoteUserJoints[(Joint)i] = result;
 
     }
